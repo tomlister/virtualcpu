@@ -1,12 +1,13 @@
 var cpu = require("./cpu.js")
 var ram = require("./ram.js")
 var vga = require("./vga.js")
+var ssd = require("./ssd.js")
+var bios = require("./bios.js")
 
 function main() {
 	ram.init();
+	ssd.init();
 	vga.start();
-	//cpu.load("01b84801b96501ba79");
-	cpu.load("01e0b801d0e0d048");
-	cpu.execute();
+	bios.boot(cpu, vga, ram);
 }
 main();

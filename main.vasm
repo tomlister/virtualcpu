@@ -1,0 +1,6 @@
+mov ax, 0xb8
+mov [ax], 0x48
+inc ax
+mov [ax], 0x65
+inc ax
+mov [ax], 0x79
