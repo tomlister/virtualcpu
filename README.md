@@ -33,5 +33,5 @@ Hey
 + db -- define byte
 + equ -- assign values to symbols
 + cmp -- compare
-+ jne - jump if not equal
++ jne -- jump if not equal
 
