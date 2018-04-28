@@ -15,15 +15,30 @@ var regs = {
 	si: "e4"
 }
 
+var funcs = {
+}
+
 var final;
+
+function convertbase (num) {
+	return {
+    	from : function (baseFrom) {
+            return {
+                to : function (baseTo) {
+                    return parseInt(num, baseFrom).toString(baseTo);
+                }
+            };
+        }
+    };
+};
 
 function assemble(input) {
 	var build = "";
 	var array = input.split(" ");
 	console.log(array);
 	for (var i = 0; i < array.length; i++) {
-		build += ops[array[i]];
-		if (array[i] == "mov") {
+		if (array[i] == "mov") { //mov
+			build += ops[array[i]];
 			if (array[i+1].match(/([\[\]])/)) {
 				var stripped = array[i+1].replace('[','').replace(']','').replace(',','')
 				build += "d0"+regs[stripped]+"d0";
@@ -34,13 +49,28 @@ function assemble(input) {
 				build += array[i+2].substring(2);
 			}
 			i += 2;
-		} else if (array[i] == "inc") {
+		} else if (array[i] == "inc") { //inc
+			build += ops[array[i]];
 			build += regs[array[i+1]];
 			i += 1;
+		} else if (array[i].match(/(\w+[:])/)) { //functions
+			var convaddr = convertbase(i+1).from(10).to(16);
+			funcs[array[i].replace(':', '')] = convaddr;
+			build += "d1"; //do not execute instructions (dne)
+			i += 1;
+		} else if (array[i] == "ret") { //functions
+			build += "06";
+			build += "d2"; //end of dne
+			i += 1;
+		} else if (array[i] == "call") { //call
+			build += "07";
+			build += funcs[array[i+1]];
+			i += 2;
 		}
 	}
 	final = Buffer.from(build, "hex");
-	fs.writeFile(outfile, final)
+	console.log(final)
+	fs.writeFileSync(outfile, final)
 }
 
 fs.readFile(inputfile, function(err, data) {
