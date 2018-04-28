@@ -8,6 +8,6 @@ function main() {
 	ram.init();
 	ssd.init();
 	vga.start();
-	bios.boot(cpu, vga, ram);
+	bios.boot(cpu, vga, ram, ssd);
 }
 main();

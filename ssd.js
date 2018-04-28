@@ -1,5 +1,18 @@
+const fs = require("fs");
 function init() {
-	global.ssd = [0x01, 0xE0, 0xB8, 0x01, 0xD0, 0xE0, 0xD0, 0x48, 0x02, 0xE0, 0x01, 0xD0, 0xE0, 0xD0, 0x65, 0x02, 0xE0, 0x01, 0xD0, 0xE0, 0xD0, 0x79];
+	global.ssd = [];
 }
 
+function load(filename) {
+	fs.readFile(filename, (err, data) => {
+ 		if (err) throw err;
+ 		var contents = JSON.parse(data);
+ 		var buff = Buffer.from(contents.data, "base64")
+ 		for (var i = 0; i < buff.length; i++) {
+			global.ssd[i] = buff[i];
+		}
+	});
+}
+
+module.exports.load = load;
 module.exports.init = init;
