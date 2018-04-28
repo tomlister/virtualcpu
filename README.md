@@ -1,7 +1,7 @@
 # virtualcpu
 ## A very basic virtual computer.
 
-![alt text](https://github.com/tomlister/virtualcpu/raw/master/src/demo.gif "Demo")
+![alt text](https://github.com/tomlister/virtualcpu/raw/master/demo.gif "Demo")
 
 You can write ascii to the video memory address 0xb8 and it will print to the screen.
 
