@@ -1,0 +1,11 @@
+mov ax, 0xb8
+string db 'Hello, World!'
+strlength equ  $ - string
+mov si, string
+printf:
+	mov [ax], [si + bx]
+	inc ax
+	inc bx
+	cmp bx, strlength
+	jne printf
+call printf
