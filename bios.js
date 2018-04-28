@@ -3,7 +3,6 @@ function flush(callback) {
 	for (var i = 0; i < 4000; i++) {
 		global.ram[0xb8+i] = undefined;
 	}
-	//global.ram[0xb8] = 0x1B; 
 	screenoffset = 0;
 }
 
@@ -13,11 +12,17 @@ function printf(string) {
 		global.ram[184+screenoffset+i] = sp[i].charCodeAt();
 	}
 }
-function boot(cpu, vga, ram) {
-	var bootmessage = "			*\n\n\n	*		*\n\n		     *\n\n\n\n		*\nAustralian Megatrends\nvbios 1.0\n";
+function boot(cpu, vga, ram, ssd) {
+	var bootmessage = "		*\n\n\n	*		*\n\n		     *\n\n\n\n		*\nAustralian Megatrends\nvbios 1.0\n";
 	printf(bootmessage);
-	screenoffset = bootmessage.length;
-	printf("Loading...\n");
+	screenoffset += bootmessage.length;
+	var lds = "Loading SSD...\n";
+	printf(lds);
+	screenoffset += lds.length;
+	ssd.load("./main.vssd");
+	var ldc = "Starting...\n";
+	printf(ldc);
+	screenoffset += ldc.length;
 	setTimeout(function(){
 		ram.reset();
 		vga.flush(function(){

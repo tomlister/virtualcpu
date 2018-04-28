@@ -8,7 +8,11 @@ var ops = {
 }
 
 var regs = {
-	ax: "e0"
+	ax: "e0",
+	al: "e1",
+	ah: "e2",
+	es: "e3",
+	si: "e4"
 }
 
 var final;
